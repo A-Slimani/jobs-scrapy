@@ -9,5 +9,9 @@ from itemadapter import ItemAdapter
 
 
 class ProcessJobsPipeline:
+
+    def __init__(self):
+        pass
+
     def process_item(self, item, spider):
         return item
