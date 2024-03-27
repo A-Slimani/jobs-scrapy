@@ -1,0 +1,6 @@
+all/__pycache__
+all/spiders/__pycache__
+.venv
+.env
+*.csv
+
