@@ -13,4 +13,5 @@ class JobItem(scrapy.Item):
     location = scrapy.Field()
     link = scrapy.Field()
     close_date = scrapy.Field()
+    website = scrapy.Field()
 

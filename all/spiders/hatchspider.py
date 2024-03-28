@@ -5,7 +5,7 @@ import scrapy
 
 
 class HatchSpider(scrapy.Spider):
-    name = "hatchspider"
+    name = "hatch"
     allowed_domains = ["api.master.hatch.team"]
     start_urls = ["https://api.master.hatch.team/role-page/summary/search/open?hatchOnly=false&page=0&pageSize=20&roleFamilies=software%20engineering%2Cdata%20analytics"]
     page_no = 0
@@ -23,12 +23,13 @@ class HatchSpider(scrapy.Spider):
 
         for job in json_data['summaries']:
             item = JobItem() 
-            item['company_name'] = job['company']['companyName']
-            item['job_title'] = job['roleTitle']
+            item['company'] = job['company']['companyName']
+            item['title'] = job['roleTitle']
             item['location'] = job['location']
             item['link'] = f'https://hatch.team/role/{job["roleContextId"]}'
             item['close_date'] = job['applicationsCloseDateTime']
-            # item['close_date_cleaned'] = format_date(job['applicationsCloseDateTime'])
+            item['salary'] = None
+            item['website'] = 'hatch'
             yield item
 
         self.page_no += 1

@@ -4,7 +4,7 @@ import scrapy
 
 
 class SeekspiderSpider(scrapy.Spider):
-    name = "seekspider"
+    name = "seek"
     allowed_domains = ["www.seek.com.au"]
     start_urls = ["https://www.seek.com.au/jobs-in-information-communication-technology/in-All-Sydney-NSW"]
     page_number = 1
@@ -25,12 +25,13 @@ class SeekspiderSpider(scrapy.Spider):
             item["company"] = card.xpath('.//*[@data-automation="jobCompany"]/text()').get()
             item["salary"] = card.xpath('.//*[@class="y735df0 _153p76c1 _1iz8dgs4y _1iz8dgs0 _1iz8dgsr _153p76c3"]/text()').get()
             item["location"] = card.xpath('.//*[@data-automation="jobLocation"]/text()').get()
-            item["link"] = f"https://seek.com.au{card.xpath('.//*[starts-with(@id, "job-title-")]/@href').get()}"
-
+            item["link"] = "https://seek.com.au%s" % card.xpath('.//@href').get()
+            item['close_date'] = None
+            item['website'] = 'seek'
+ 
             yield item
 
         self.page_number += 1
         next_page = f"https://www.seek.com.au/jobs-in-information-communication-technology/in-All-Sydney-NSW?page={self.page_number}"
         yield response.follow(next_page, callback=self.parse)
-    
     
